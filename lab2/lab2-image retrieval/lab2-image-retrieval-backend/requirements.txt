@@ -1,0 +1,8 @@
+imageio
+numpy
+tensorflow
+scipy
+flask
+werkzeug
+flask_cors
+flask_httpauth
