@@ -1,10 +1,9 @@
-import dash
-import dash_core_components as dcc
-import dash_html_components as html
+
+from dash import Dash, html, dcc, dependencies
 import plotly.graph_objs as go
 import pandas as pd
 
-app = dash.Dash()
+app = Dash(__name__)
 
 df = pd.read_csv(
     'https://gist.githubusercontent.com/chriddyp/'
@@ -30,7 +29,7 @@ app.layout = html.Div([
                 labelStyle={'display': 'inline-block'}
             )
         ],
-        style={'width': '49%', 'display': 'inline-block'}),
+            style={'width': '49%', 'display': 'inline-block'}),
 
         html.Div([
             dcc.Dropdown(
@@ -72,14 +71,14 @@ app.layout = html.Div([
     ), style={'width': '49%', 'padding': '0px 20px 20px 20px'})
 ])
 
-@app.callback(
-    dash.dependencies.Output('crossfilter-indicator-scatter', 'figure'),
-    [dash.dependencies.Input('crossfilter-xaxis-column', 'value'),
-     dash.dependencies.Input('crossfilter-yaxis-column', 'value'),
-     dash.dependencies.Input('crossfilter-xaxis-type', 'value'),
-     dash.dependencies.Input('crossfilter-yaxis-type', 'value'),
-     dash.dependencies.Input('crossfilter-year--slider', 'value')])
 
+@app.callback(
+    dependencies.Output('crossfilter-indicator-scatter', 'figure'),
+    [dependencies.Input('crossfilter-xaxis-column', 'value'),
+     dependencies.Input('crossfilter-yaxis-column', 'value'),
+     dependencies.Input('crossfilter-xaxis-type', 'value'),
+     dependencies.Input('crossfilter-yaxis-type', 'value'),
+     dependencies.Input('crossfilter-year--slider', 'value')])
 def update_graph(xaxis_column_name, yaxis_column_name,
                  xaxis_type, yaxis_type,
                  year_value):
@@ -113,6 +112,7 @@ def update_graph(xaxis_column_name, yaxis_column_name,
         )
     }
 
+
 def create_time_series(dff, axis_type, title):
     return {
         'data': [go.Scatter(
@@ -134,11 +134,12 @@ def create_time_series(dff, axis_type, title):
         }
     }
 
+
 @app.callback(
-    dash.dependencies.Output('x-time-series', 'figure'),
-    [dash.dependencies.Input('crossfilter-indicator-scatter', 'hoverData'),
-     dash.dependencies.Input('crossfilter-xaxis-column', 'value'),
-     dash.dependencies.Input('crossfilter-xaxis-type', 'value')])
+    dependencies.Output('x-time-series', 'figure'),
+    [dependencies.Input('crossfilter-indicator-scatter', 'hoverData'),
+     dependencies.Input('crossfilter-xaxis-column', 'value'),
+     dependencies.Input('crossfilter-xaxis-type', 'value')])
 def update_y_timeseries(hoverData, xaxis_column_name, axis_type):
     country_name = hoverData['points'][0]['customdata']
     dff = df[df['Country Name'] == country_name]
@@ -146,15 +147,17 @@ def update_y_timeseries(hoverData, xaxis_column_name, axis_type):
     title = '<b>{}</b><br>{}'.format(country_name, xaxis_column_name)
     return create_time_series(dff, axis_type, title)
 
+
 @app.callback(
-    dash.dependencies.Output('y-time-series', 'figure'),
-    [dash.dependencies.Input('crossfilter-indicator-scatter', 'hoverData'),
-     dash.dependencies.Input('crossfilter-yaxis-column', 'value'),
-     dash.dependencies.Input('crossfilter-yaxis-type', 'value')])
+    dependencies.Output('y-time-series', 'figure'),
+    [dependencies.Input('crossfilter-indicator-scatter', 'hoverData'),
+     dependencies.Input('crossfilter-yaxis-column', 'value'),
+     dependencies.Input('crossfilter-yaxis-type', 'value')])
 def update_x_timeseries(hoverData, yaxis_column_name, axis_type):
     dff = df[df['Country Name'] == hoverData['points'][0]['customdata']]
     dff = dff[dff['Indicator Name'] == yaxis_column_name]
     return create_time_series(dff, axis_type, yaxis_column_name)
+
 
 app.css.append_css({
     'external_url': 'https://codepen.io/chriddyp/pen/bWLwgP.css'
