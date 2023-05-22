@@ -106,4 +106,4 @@ c. visit [http://localhost:8080](http://localhost:8080)
 
 I will try to deploy this on the server and I will update this on GitHub if I successfully deployed this. 
 
-[update] You can now visit http://101.42.149.87:8080 as I deployed this to the server. 
+[update] You can now visit http://101.42.149.87:8080 as I deployed this to the server. (Deprecated as the server is freed)
