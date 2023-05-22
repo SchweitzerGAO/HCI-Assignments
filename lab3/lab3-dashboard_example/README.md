@@ -10,7 +10,7 @@
 
 Among the 3 datasets that Prof. Shen provided, I chose the Black Friday dataset for this assignment.
 
-This dataset illustrates the basic personal info, the product category and the money payed for the purchase etc. in a certain Black Friday. As the personal info contains necessary features like gender, age, I decided to analyze the data in the following 3 aspects:
+This dataset illustrates the basic personal info, the product category and the money payed for the purchase etc. in a certain Black Friday. As the personal info contains necessary features like gender, age, I decided to analyze the data in the following 4 aspects:
 
 1. The ratio of each gender of each age range that purchased in Black Friday, which will be illustrated in a pie chart.
 1. The ratio of each age range of each gender range that purchased in Black Friday, which will be illustrated also in a pie chart.
